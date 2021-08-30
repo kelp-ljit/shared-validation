@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<title>Shared validation</title>
+	<link rel="stylesheet" href="<?= config.ASSETS_PATH ?>/web.css"/>
+	<script type="text/javascript">
+		function base64DecodeUnicode(text) {
+			return decodeURIComponent(atob(text).split('').map(function (c) {
+				return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+			}).join(''));
+		}
+		window.error = JSON.parse(base64DecodeUnicode('<?- archive(error) ?>'));
+	</script>
+</head>
+<body>
+<div id="root">
+	<div class="text-center text-muted py-5">
+		<div class="spinner-border">
+			<span class="visually-hidden">Loading...</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="<?= config.ASSETS_PATH ?>/en-us.js"></script>
+<script type="text/javascript" src="<?= config.ASSETS_PATH ?>/web.js"></script>
+</body>
+</html>
