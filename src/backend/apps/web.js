@@ -7,6 +7,7 @@ const ejs = require('ejs');
 const morgan = require('morgan');
 const nocache = require('nocache');
 const {Http404} = require('../models/errors');
+const apiRouter = require('../routers/api-router');
 const webRouter = require('../routers/web-router');
 const baseHandler = require('../handlers/base-handler');
 
@@ -27,6 +28,7 @@ app.set('view engine', 'html');
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
+app.use('/api', nocache(), apiRouter);
 app.use(nocache(), webRouter);
 
 // Error handlers
