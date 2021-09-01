@@ -20,3 +20,13 @@ exports.loginFormSchema = {
 		isNeedNumber: false,
 	},
 };
+
+exports.rootCreateUserFormSchema = {
+	username: {
+		...userSchema.username,
+		optional: false,
+		empty: false,
+	},
+	email: userSchema.email,
+	permission: userSchema.permission,
+};

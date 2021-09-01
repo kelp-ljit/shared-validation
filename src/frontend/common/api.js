@@ -59,4 +59,13 @@ module.exports = {
 			data: {username, email, password},
 		}),
 	},
+	root: {
+		user: {
+			createUser: ({username, email, permission}) => sendRequest({
+				method: 'post',
+				url: `${BASE_PATH}/root/users`,
+				data: {username, email, permission},
+			}),
+		},
+	},
 };
