@@ -66,6 +66,11 @@ module.exports = {
 				url: `${BASE_PATH}/root/users`,
 				data: {username, email, permission},
 			}),
+			getUsers: ({permission, index, size, sort}) => sendRequest({
+				method: 'get',
+				url: `${BASE_PATH}/root/users`,
+				params: {permission, index, size, sort},
+			}),
 		},
 	},
 };

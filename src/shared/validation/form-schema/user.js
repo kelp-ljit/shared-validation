@@ -1,3 +1,4 @@
+const {generatePaginationSchema} = require('../generators');
 const userSchema = require('../model-schema/user');
 
 exports.registerFormSchema = {
@@ -29,4 +30,12 @@ exports.rootCreateUserFormSchema = {
 	},
 	email: userSchema.email,
 	permission: userSchema.permission,
+};
+
+exports.rootGetUsersFormSchema = {
+	...generatePaginationSchema({sortFields: ['createdAt']}),
+	permission: {
+		...userSchema.permission,
+		optional: true,
+	},
 };

@@ -7,6 +7,7 @@ const {
 	validateLoginBody,
 	validateRegisterBody,
 	validateRootCreateUserBody,
+	validateRootGetUsersQuery,
 } = require('../validators/user-validator');
 const {
 	ACCOUNT_PAGES: {
@@ -67,4 +68,18 @@ exports.rootCreateUser = (req, res) => {
 	}
 
 	res.json({username, email, permission});
+};
+
+/*
+	GET /api/root/users
+ */
+exports.rootGetUsers = (req, res) => {
+	const checkBodyResult = validateRootGetUsersQuery(req.query);
+	const {permission, sort, index = 0, size = 20} = req.query;
+
+	if (checkBodyResult !== true) {
+		throw new Http422('validation failed', checkBodyResult);
+	}
+
+	res.json({permission, index, size, sort});
 };
