@@ -5,12 +5,19 @@ const RegisterForm = require('../components/forms/register-form');
 module.exports = class Home extends React.Component {
 	render() {
 		return (
-			<div className="container pt-3">
-				<div className="row">
-					<LoginForm/>
-					<RegisterForm/>
+			<>
+				<nav className="navbar sticky-top navbar-dark bg-dark">
+					<div className="container">
+						<a className="navbar-brand" href="/">shared-validation</a>
+					</div>
+				</nav>
+				<div className="container pt-3">
+					<div className="row">
+						<LoginForm/>
+						<RegisterForm/>
+					</div>
 				</div>
-			</div>
+			</>
 		);
 	}
 };
