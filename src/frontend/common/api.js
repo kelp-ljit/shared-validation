@@ -53,5 +53,10 @@ module.exports = {
 			url: `${BASE_PATH}/login`,
 			data: {email, password},
 		}),
+		register: ({username, email, password}) => sendRequest({
+			method: 'post',
+			url: `${BASE_PATH}/users`,
+			data: {username, email, password},
+		}),
 	},
 };

@@ -32,13 +32,30 @@ class Http404 extends Error {
 	}
 }
 
+class Http409 extends Error {
+	/**
+	 * @param {*} message
+	 * @param {{frontendOperationCode: string, frontendOperationValues: *}|undefined} extra
+	 */
+	constructor(message, extra) {
+		super(message || 'conflict');
+		if (message?.stack) {
+			this.secondaryStack = this.stack;
+			this.stack = message.stack;
+		}
+
+		this.status = 409;
+		this.extra = extra;
+	}
+}
+
 class Http422 extends Error {
 	/**
 	 * @param {*} message
 	 * @param {{frontendOperationCode: string, frontendOperationValues: *}|undefined} extra
 	 */
 	constructor(message, extra) {
-		super(message || 'bad request');
+		super(message || 'unprocessable entity');
 		if (message?.stack) {
 			this.secondaryStack = this.stack;
 			this.stack = message.stack;
@@ -69,6 +86,7 @@ class Http500 extends Error {
 module.exports = {
 	Http400,
 	Http404,
+	Http409,
 	Http422,
 	Http500,
 };
