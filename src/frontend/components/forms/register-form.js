@@ -25,6 +25,9 @@ module.exports = class RegisterForm extends Base {
 				userValidator.validateRegisterForm,
 			),
 		};
+		this.ids = {
+			registerForm: utils.generateIdsByFormSchema(registerFormSchema),
+		};
 		this.state.isRegisterSuccess = null;
 		this.state.isUsernameConflict = null;
 		this.state.registerResponse = null;
@@ -61,16 +64,17 @@ module.exports = class RegisterForm extends Base {
 	}
 
 	registerFormRender = ({errors, touched}) => {
+		const {registerForm: ids} = this.ids;
 		const {$isApiProcessing, isRegisterSuccess, isUsernameConflict, registerResponse} = this.state;
 
 		return (
 			<Form>
 				<div className="mb-3">
-					<label htmlFor="input-username" className="form-label">{_('Username')}</label>
+					<label htmlFor={ids.username} className="form-label">{_('Username')}</label>
 					<div className={classNames('input-group', {'has-validation': errors.username && touched.username})}>
 						<span className="input-group-text">http://localhost:8000/</span>
 						<Field
-							id="input-username" name="username" type="text"
+							id={ids.username} name="username" type="text"
 							maxLength={registerFormSchema.username.max}
 							className={classNames('form-control', {'is-invalid': errors.username && touched.username})}/>
 						{
@@ -84,9 +88,9 @@ module.exports = class RegisterForm extends Base {
 					</div>
 				</div>
 				<div className="mb-3">
-					<label htmlFor="input-email" className="form-label">{_('Email')}</label>
+					<label htmlFor={ids.email} className="form-label">{_('Email')}</label>
 					<Field
-						id="input-email" name="email" type="text"
+						id={ids.email} name="email" type="text"
 						maxLength={registerFormSchema.email.max}
 						className={classNames('form-control', {
 							'is-invalid': errors.email && touched.email,
@@ -98,9 +102,9 @@ module.exports = class RegisterForm extends Base {
 					}
 				</div>
 				<div className="mb-3">
-					<label htmlFor="input-password" className="form-label">{_('Password')}</label>
+					<label htmlFor={ids.password} className="form-label">{_('Password')}</label>
 					<Field
-						id="input-password" name="password" type="password"
+						id={ids.password} name="password" type="password"
 						maxLength={registerFormSchema.password.max}
 						className={classNames('form-control', {
 							'is-invalid': errors.password && touched.password,

@@ -25,6 +25,9 @@ module.exports = class LoginForm extends Base {
 				userValidator.validateLoginForm,
 			),
 		};
+		this.ids = {
+			loginForm: utils.generateIdsByFormSchema(loginFormSchema),
+		};
 		this.state.isLoginSuccess = null;
 		this.state.isIncorrectPassword = null;
 		this.state.loginResponse = null;
@@ -61,16 +64,17 @@ module.exports = class LoginForm extends Base {
 	}
 
 	loginFormRender = ({errors, submitCount}) => {
+		const {loginForm: ids} = this.ids;
 		const {$isApiProcessing, isLoginSuccess, isIncorrectPassword, loginResponse} = this.state;
 		const isSubmitted = submitCount > 0;
 
 		return (
 			<Form>
 				<div className="mb-3">
-					<label htmlFor="input-email" className="form-label">{_('Email')}</label>
+					<label htmlFor={ids.email} className="form-label">{_('Email')}</label>
 					<Field
 						autoFocus
-						id="input-email" name="email" type="text"
+						id={ids.email} name="email" type="text"
 						maxLength={loginFormSchema.email.max}
 						className={classNames('form-control', {
 							'is-invalid': errors.email && isSubmitted,
@@ -82,9 +86,9 @@ module.exports = class LoginForm extends Base {
 					}
 				</div>
 				<div className="mb-3">
-					<label htmlFor="input-password" className="form-label">{_('Password')}</label>
+					<label htmlFor={ids.password} className="form-label">{_('Password')}</label>
 					<Field
-						id="input-password" name="password" type="password"
+						id={ids.password} name="password" type="password"
 						maxLength={loginFormSchema.password.max}
 						className={classNames('form-control', {
 							'is-invalid': errors.password && isSubmitted,

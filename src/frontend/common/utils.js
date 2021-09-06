@@ -16,3 +16,13 @@ exports.makeFormikValidator = checkFunction => values => {
 	});
 	return result;
 };
+
+/**
+ * Generate html ids by from schema.
+ * 	{email: {Schema}} -> {email: "0.z3bganqr6oh"}
+ * @param {Object} formSchema
+ * @returns {Object}
+ */
+exports.generateIdsByFormSchema = formSchema => Object.fromEntries(
+	Object.keys(formSchema).map(key => [key, Math.random().toString(36)]),
+);
