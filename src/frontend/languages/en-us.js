@@ -1,3 +1,5 @@
+const USER_PERMISSION = require('../../shared/constants/user-permission');
+
 window.languageResource = {
 	_code: 'en-us',
 
@@ -69,4 +71,8 @@ window.languageResource = {
 	'validation-stringContainsUpperCaseLatter': 'This field must contain a uppercase letter.',
 	'validation-stringContainsNumber': 'This field must contain a number.',
 	'validation-id': 'This field must be a valid id.',
+
+	[`user-permission-${USER_PERMISSION.ROOT}`]: 'Admin',
+	[`user-permission-${USER_PERMISSION.MANAGER}`]: 'Manager',
+	[`user-permission-${USER_PERMISSION.MEMBER}`]: 'Member',
 };

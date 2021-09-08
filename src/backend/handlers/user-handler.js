@@ -6,9 +6,11 @@ const {
 const {
 	validateLoginBody,
 	validateRegisterBody,
-	validateRootCreateUserBody,
-	validateRootGetUsersQuery,
 } = require('../validators/user-validator');
+const {
+	validateCreateUserBody,
+	validateGetUsersQuery,
+} = require('../validators/root/user-validator');
 const {
 	ACCOUNT_PAGES: {
 		SHOW_INVALID_PASSWORD_ALERT,
@@ -60,7 +62,7 @@ exports.register = (req, res) => {
 	POST /api/root/users
  */
 exports.rootCreateUser = (req, res) => {
-	const checkResult = validateRootCreateUserBody(req.body);
+	const checkResult = validateCreateUserBody(req.body);
 	const {username, email, permission} = req.body;
 
 	if (checkResult !== true) {
@@ -74,7 +76,7 @@ exports.rootCreateUser = (req, res) => {
 	GET /api/root/users
  */
 exports.rootGetUsers = (req, res) => {
-	const checkResult = validateRootGetUsersQuery(req.query);
+	const checkResult = validateGetUsersQuery(req.query);
 	const {permission, sort, index = 0, size = 20} = req.query;
 
 	if (checkResult !== true) {

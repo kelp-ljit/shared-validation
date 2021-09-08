@@ -30,7 +30,7 @@ module.exports = class RegisterForm extends Base {
 		};
 		this.state.isRegisterSuccess = null;
 		this.state.isUsernameConflict = null;
-		this.state.registerResponse = null;
+		this.state.apiResponse = null;
 	}
 
 	onSubmitRegisterForm = async (values, {resetForm}) => {
@@ -43,20 +43,20 @@ module.exports = class RegisterForm extends Base {
 			const response = await api.user.register(values);
 			this.setState({
 				isRegisterSuccess: true,
-				registerResponse: JSON.stringify(response.data, null, 2),
+				apiResponse: JSON.stringify(response.data, null, 2),
 			});
 			resetForm({values: {username: '', email: '', password: ''}});
 		} catch (error) {
 			if (error.response?.data?.extra?.frontendOperationCode === SHOW_USERNAME_WAS_TOKEN_ALERT) {
 				this.setState({
 					isUsernameConflict: true,
-					registerResponse: JSON.stringify(error.response.data, null, 2),
+					apiResponse: JSON.stringify(error.response.data, null, 2),
 				});
 				return;
 			}
 
 			this.setState({
-				registerResponse: error.response?.data ? JSON.stringify(error.response.data, null, 2) : `${error}`,
+				apiResponse: error.response?.data ? JSON.stringify(error.response.data, null, 2) : `${error}`,
 			});
 		} finally {
 			progress.done();
@@ -65,7 +65,7 @@ module.exports = class RegisterForm extends Base {
 
 	registerFormRender = ({errors, touched}) => {
 		const {registerForm: ids} = this.ids;
-		const {$isApiProcessing, isRegisterSuccess, isUsernameConflict, registerResponse} = this.state;
+		const {$isApiProcessing, isRegisterSuccess, isUsernameConflict, apiResponse} = this.state;
 
 		return (
 			<Form>
@@ -124,7 +124,7 @@ module.exports = class RegisterForm extends Base {
 					{_('Register')}
 				</button>
 				{isRegisterSuccess && <SuccessCheckmark/>}
-				{registerResponse && <pre className="mt-3 mb-0"><code>{registerResponse}</code></pre>}
+				{apiResponse && <pre className="mt-3 mb-0"><code>{apiResponse}</code></pre>}
 			</Form>
 		);
 	}

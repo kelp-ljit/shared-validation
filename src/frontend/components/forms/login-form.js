@@ -30,7 +30,7 @@ module.exports = class LoginForm extends Base {
 		};
 		this.state.isLoginSuccess = null;
 		this.state.isIncorrectPassword = null;
-		this.state.loginResponse = null;
+		this.state.apiResponse = null;
 	}
 
 	onSubmitLoginForm = async (values, {resetForm}) => {
@@ -40,23 +40,23 @@ module.exports = class LoginForm extends Base {
 				isLoginSuccess || isIncorrectPassword ? {isLoginSuccess: false, isIncorrectPassword: false} : null,
 			);
 
-			const response = await api.user.login(values);
+			const response = await api.root.user.login(values);
 			this.setState({
 				isLoginSuccess: true,
-				loginResponse: JSON.stringify(response.data, null, 2),
+				apiResponse: JSON.stringify(response.data, null, 2),
 			});
 			resetForm({values: {email: '', password: ''}});
 		} catch (error) {
 			if (error.response?.data?.extra?.frontendOperationCode === SHOW_INVALID_PASSWORD_ALERT) {
 				this.setState({
 					isIncorrectPassword: true,
-					loginResponse: JSON.stringify(error.response.data, null, 2),
+					apiResponse: JSON.stringify(error.response.data, null, 2),
 				});
 				return;
 			}
 
 			this.setState({
-				loginResponse: error.response?.data ? JSON.stringify(error.response.data, null, 2) : `${error}`,
+				apiResponse: error.response?.data ? JSON.stringify(error.response.data, null, 2) : `${error}`,
 			});
 		} finally {
 			progress.done();
@@ -65,7 +65,7 @@ module.exports = class LoginForm extends Base {
 
 	loginFormRender = ({errors, submitCount}) => {
 		const {loginForm: ids} = this.ids;
-		const {$isApiProcessing, isLoginSuccess, isIncorrectPassword, loginResponse} = this.state;
+		const {$isApiProcessing, isLoginSuccess, isIncorrectPassword, apiResponse} = this.state;
 		const isSubmitted = submitCount > 0;
 
 		return (
@@ -108,7 +108,7 @@ module.exports = class LoginForm extends Base {
 					{_('Login')}
 				</button>
 				{isLoginSuccess && <SuccessCheckmark/>}
-				{loginResponse && <pre className="mt-3 mb-0"><code>{loginResponse}</code></pre>}
+				{apiResponse && <pre className="mt-3 mb-0"><code>{apiResponse}</code></pre>}
 			</Form>
 		);
 	}
