@@ -20,11 +20,11 @@ const {
 	POST /api/login
  */
 exports.login = (req, res) => {
-	const checkBodyResult = validateLoginBody(req.body);
+	const checkResult = validateLoginBody(req.body);
 	const {email, password} = req.body;
 
-	if (checkBodyResult !== true) {
-		throw new Http422('validation failed', checkBodyResult);
+	if (checkResult !== true) {
+		throw new Http422('validation failed', checkResult);
 	}
 
 	if (password === '123') {
@@ -40,11 +40,11 @@ exports.login = (req, res) => {
 	POST /api/users
  */
 exports.register = (req, res) => {
-	const checkBodyResult = validateRegisterBody(req.body);
+	const checkResult = validateRegisterBody(req.body);
 	const {username, email, password} = req.body;
 
-	if (checkBodyResult !== true) {
-		throw new Http422('validation failed', checkBodyResult);
+	if (checkResult !== true) {
+		throw new Http422('validation failed', checkResult);
 	}
 
 	if (username === 'kelp') {
@@ -60,11 +60,11 @@ exports.register = (req, res) => {
 	POST /api/root/users
  */
 exports.rootCreateUser = (req, res) => {
-	const checkBodyResult = validateRootCreateUserBody(req.body);
+	const checkResult = validateRootCreateUserBody(req.body);
 	const {username, email, permission} = req.body;
 
-	if (checkBodyResult !== true) {
-		throw new Http422('validation failed', checkBodyResult);
+	if (checkResult !== true) {
+		throw new Http422('validation failed', checkResult);
 	}
 
 	res.json({username, email, permission});
@@ -74,11 +74,11 @@ exports.rootCreateUser = (req, res) => {
 	GET /api/root/users
  */
 exports.rootGetUsers = (req, res) => {
-	const checkBodyResult = validateRootGetUsersQuery(req.query);
+	const checkResult = validateRootGetUsersQuery(req.query);
 	const {permission, sort, index = 0, size = 20} = req.query;
 
-	if (checkBodyResult !== true) {
-		throw new Http422('validation failed', checkBodyResult);
+	if (checkResult !== true) {
+		throw new Http422('validation failed', checkResult);
 	}
 
 	res.json({permission, index, size, sort});
