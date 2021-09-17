@@ -77,7 +77,7 @@ exports.rootCreateUser = (req, res) => {
  */
 exports.rootGetUsers = (req, res) => {
 	const checkResult = validateGetUsersQuery(req.query);
-	const {permission, sort, index = 0, size = 20} = req.query;
+	const {permission, index = 0, size = 20, sort = '-createdAt'} = req.query;
 
 	if (checkResult !== true) {
 		throw new Http422('validation failed', checkResult);
