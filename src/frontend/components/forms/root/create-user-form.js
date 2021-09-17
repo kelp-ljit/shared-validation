@@ -35,15 +35,17 @@ module.exports = class RootCreateUserForm extends Base {
 				isCreateSuccess ? {isCreateSuccess: false} : null,
 			);
 
-			const response = await api.root.user.createUser(values);
+			const {status, data} = await api.root.user.createUser(values);
 			this.setState({
 				isCreateSuccess: true,
-				apiResponse: JSON.stringify(response.data, null, 2),
+				apiResponse: JSON.stringify({status, data}, null, 2),
 			});
 			resetForm({values: {username: '', email: '', permission: ''}});
 		} catch (error) {
+			const {status, data} = error.response || {};
+
 			this.setState({
-				apiResponse: error.response?.data ? JSON.stringify(error.response.data, null, 2) : `${error}`,
+				apiResponse: data ? JSON.stringify({status, data}, null, 2) : `${error}`,
 			});
 		} finally {
 			progress.done();

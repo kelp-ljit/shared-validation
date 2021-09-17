@@ -40,23 +40,25 @@ module.exports = class LoginForm extends Base {
 				isLoginSuccess || isIncorrectPassword ? {isLoginSuccess: false, isIncorrectPassword: false} : null,
 			);
 
-			const response = await api.root.user.login(values);
+			const {status, data} = await api.user.login(values);
 			this.setState({
 				isLoginSuccess: true,
-				apiResponse: JSON.stringify(response.data, null, 2),
+				apiResponse: JSON.stringify({status, data}, null, 2),
 			});
 			resetForm({values: {email: '', password: ''}});
 		} catch (error) {
+			const {status, data} = error.response || {};
+
 			if (error.response?.data?.extra?.frontendOperationCode === SHOW_INVALID_PASSWORD_ALERT) {
 				this.setState({
 					isIncorrectPassword: true,
-					apiResponse: JSON.stringify(error.response.data, null, 2),
+					apiResponse: JSON.stringify({status, data}, null, 2),
 				});
 				return;
 			}
 
 			this.setState({
-				apiResponse: error.response?.data ? JSON.stringify(error.response.data, null, 2) : `${error}`,
+				apiResponse: data ? JSON.stringify({status, data}, null, 2) : `${error}`,
 			});
 		} finally {
 			progress.done();

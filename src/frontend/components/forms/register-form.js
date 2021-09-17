@@ -40,23 +40,25 @@ module.exports = class RegisterForm extends Base {
 				(isRegisterSuccess || isUsernameConflict) ? {isRegisterSuccess: false, isUsernameConflict: false} : null,
 			);
 
-			const response = await api.user.register(values);
+			const {status, data} = await api.user.register(values);
 			this.setState({
 				isRegisterSuccess: true,
-				apiResponse: JSON.stringify(response.data, null, 2),
+				apiResponse: JSON.stringify({status, data}, null, 2),
 			});
 			resetForm({values: {username: '', email: '', password: ''}});
 		} catch (error) {
+			const {status, data} = error.response || {};
+
 			if (error.response?.data?.extra?.frontendOperationCode === SHOW_USERNAME_WAS_TOKEN_ALERT) {
 				this.setState({
 					isUsernameConflict: true,
-					apiResponse: JSON.stringify(error.response.data, null, 2),
+					apiResponse: JSON.stringify({status, data}, null, 2),
 				});
 				return;
 			}
 
 			this.setState({
-				apiResponse: error.response?.data ? JSON.stringify(error.response.data, null, 2) : `${error}`,
+				apiResponse: data ? JSON.stringify({status, data}, null, 2) : `${error}`,
 			});
 		} finally {
 			progress.done();
